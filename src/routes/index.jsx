@@ -4,12 +4,28 @@ import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
-const RoutesMain = () => {
+const RoutesMain = ({ setUserInfo, userInfo, setLoading, loading }) => {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/"
+        element={
+          <Dashboard
+            setUserInfo={setUserInfo}
+            userInfo={userInfo}
+            setLoading={setLoading}
+            loading={loading}
+          />
+        }
+      />
+      <Route
+        path="/login"
+        element={<Login setLoading={setLoading} loading={loading} />}
+      />
+      <Route
+        path="/register"
+        element={<Register setLoading={setLoading} loading={loading} />}
+      />
     </Routes>
   );
 };
