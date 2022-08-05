@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { HeaderPage } from "./style";
 
-const Header = ({ textButton, redirect, setUserInfo }) => {
+const Header = ({ textButton, redirect, setUserInfo, notify }) => {
   const isLoggout = (loggout) => {
     if (loggout === "Sair") {
       localStorage.clear();
+      notify("success", "deslogado");
       setUserInfo("");
     }
   };

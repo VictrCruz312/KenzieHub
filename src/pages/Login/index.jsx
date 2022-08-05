@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,8 +10,11 @@ import Header from "../../components/Header";
 import { Form } from "../../styles/Form/style";
 import Loading from "../../components/Loading";
 
-const Login = ({ setLoading, loading }) => {
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+
+const Login = ({ setLoading, loading, notify }) => {
   let navigate = useNavigate();
+  const [visibility, setVisibility] = useState(false);
 
   const formSchema = yup.object().shape({
     email: yup
@@ -34,13 +37,14 @@ const Login = ({ setLoading, loading }) => {
     axios
       .post("https://kenziehub.herokuapp.com/sessions", data)
       .then((res) => {
+        notify("success", "logado com sucesso");
         localStorage.setItem("@TOKEN", res.data.token);
         localStorage.setItem("@USERID", res.data.user.id);
         navigate("/");
         return res;
       })
       .finally(() => setLoading(false))
-      .catch((error) => console.log(error));
+      .catch((error) => notify("error", "deu erro"));
   };
 
   return (
@@ -67,12 +71,21 @@ const Login = ({ setLoading, loading }) => {
               <label htmlFor="password">Senha</label>
               <span>{errors.password?.message}*</span>
             </div>
-            <input
-              type="password"
-              placeholder="Digite aqui sua senha"
-              id="password"
-              {...register("password")}
-            />
+            <div className="containerVisibilityPassword">
+              <input
+                type={visibility ? "text" : "password"}
+                placeholder="Digite aqui sua senha"
+                id="password"
+                {...register("password")}
+              />
+              <button onClick={() => setVisibility(!visibility)}>
+                {visibility ? (
+                  <MdOutlineVisibility />
+                ) : (
+                  <MdOutlineVisibilityOff />
+                )}
+              </button>
+            </div>
           </div>
           <button type="submit">Entrar</button>
         </Form>

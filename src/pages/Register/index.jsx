@@ -10,7 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 
-const Register = ({ loading, setLoading }) => {
+const Register = ({ loading, setLoading, notify }) => {
   let navigate = useNavigate();
 
   const formSchema = yup.object().shape({
@@ -26,7 +26,7 @@ const Register = ({ loading, setLoading }) => {
       .matches(/(?=.*[a-z])/, "Deve conter 1 letra minúscula")
       .matches(/(?=.*[A-Z])/, "Deve conter 1 letra maiúscula")
       .matches(/(?=.*[$*&@#.,/+-])/, "Deve conter 1 caractere especial")
-      .matches(/([a-zA-Z0-9$*&@#.,/+-]{8,})/, "minimo 8 caracteres"),
+      .matches(/([a-zA-Z0-9$*&@#.,/+-]{6,})/, "minimo 8 caracteres"),
     confirmPassword: yup
       .string()
       .required("Repita a senha")
@@ -49,9 +49,12 @@ const Register = ({ loading, setLoading }) => {
     setLoading(true);
     axios
       .post("https://kenziehub.herokuapp.com/users", data)
-      .then((res) => navigate("/login"))
+      .then((res) => {
+        notify("success", "usuário criado com sucesso");
+        navigate("/login");
+      })
       .finally(() => setLoading(false))
-      .catch((error) => console.log(error));
+      .catch((error) => notify("error", "email já existe"));
   };
 
   return (

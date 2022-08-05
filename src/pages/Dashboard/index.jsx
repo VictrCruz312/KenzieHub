@@ -4,9 +4,11 @@ import axios from "axios";
 
 import { ContainerDashboard } from "./style";
 import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
-const Dashboard = ({ setLoading, loading, userInfo, setUserInfo }) => {
+const Dashboard = ({ setLoading, loading, userInfo, setUserInfo, notify }) => {
   const id = localStorage.getItem("@USERID");
+  let navigate = useNavigate();
 
   const getUser = () => {
     setLoading(true);
@@ -14,15 +16,24 @@ const Dashboard = ({ setLoading, loading, userInfo, setUserInfo }) => {
       .get(`https://kenziehub.herokuapp.com/users/${id}`)
       .then((res) => setUserInfo(res.data))
       .finally(() => setLoading(false))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        notify("error", "você deve logar para acessar essa página");
+        navigate("/login");
+      });
   };
 
   useEffect(() => {
     getUser();
   }, []);
+
   return (
     <>
-      <Header setUserInfo={setUserInfo} textButton="Sair" redirect="/login" />
+      <Header
+        setUserInfo={setUserInfo}
+        textButton="Sair"
+        redirect="/login"
+        notify={notify}
+      />
       <ContainerDashboard>
         <div className="Perfil">
           <h1>{userInfo.name}</h1>

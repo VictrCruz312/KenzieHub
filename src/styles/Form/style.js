@@ -19,6 +19,28 @@ export const Form = styled.form`
       width: 100%;
     }
 
+    .containerVisibilityPassword {
+      display: flex;
+      background-color: rgb(var(--Grey-2));
+      width: 100%;
+      border-radius: 4px;
+      align-items: center;
+
+      button {
+        display: flex;
+        padding: 1px;
+        border-radius: 10px;
+        margin-right: 20px;
+        background-color: inherit;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          color: rgb(var(--Grey-1));
+        }
+      }
+    }
+
     input,
     select {
       width: 100%;
@@ -54,7 +76,7 @@ export const Form = styled.form`
     }
   }
 
-  button {
+  & > button {
     ${({ errors }) =>
       Object.keys(errors).length === 0
         ? "background:rgb(var(--Color-primary))"
