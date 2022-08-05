@@ -44,7 +44,7 @@ const Login = ({ setLoading, loading, notify }) => {
         return res;
       })
       .finally(() => setLoading(false))
-      .catch((error) => notify("error", "deu erro"));
+      .catch((error) => notify("error", "Usuário ou senha incorretos"));
   };
 
   return (
