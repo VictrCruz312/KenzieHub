@@ -61,10 +61,25 @@ const UserProvider = ({ children }) => {
       .then(() => {
         getUser();
         navigate("/");
-        notify("success", "Usuário deletado com sucesso");
+        notify("success", "Tecnologia deletada com sucesso");
       })
       .finally(() => setLoading(true))
       .catch(() => notify("error", "erro ao excluir"));
+  };
+
+  const createTech = (data) => {
+    setLoading(true);
+    api
+      .post("/users/techs", data)
+      .then(() => {
+        getUser();
+        navigate("/");
+        notify("success", "Tecnologia criada com sucesso");
+      })
+      .finally(() => setLoading(false))
+      .catch(() =>
+        notify("error", "já existe uma tecnologia com o mesmo nome")
+      );
   };
 
   return (
@@ -84,6 +99,7 @@ const UserProvider = ({ children }) => {
         setTechEdit,
         updateTech,
         deleteTech,
+        createTech,
       }}
     >
       {children}

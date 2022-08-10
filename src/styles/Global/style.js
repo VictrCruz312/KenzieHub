@@ -26,6 +26,7 @@ const Global = createGlobalStyle`
         border: none;
         box-sizing: border-box;
         font-family: var(--Font-inter);
+        transition: 300ms;
     }
 
     input:focus {
@@ -38,6 +39,7 @@ const Global = createGlobalStyle`
 
     button, a {
         cursor: pointer;
+        text-decoration: none;
     }
 `;
 
