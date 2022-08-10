@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 import { useForm } from "react-hook-form";
+
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import { ContainerLogin } from "./style";
 import Header from "../../components/Header";
 import { Form } from "../../styles/Form/style";
 import Loading from "../../components/Loading";
+import { api } from "../../services/api";
 
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
-const Login = ({ setLoading, loading, notify }) => {
-  let navigate = useNavigate();
-  const [visibility, setVisibility] = useState(false);
+const Login = () => {
+  const { setLoading, loading, notify, visibility, setVisibility, navigate } =
+    useContext(UserContext);
 
   const formSchema = yup.object().shape({
     email: yup
@@ -34,8 +35,8 @@ const Login = ({ setLoading, loading, notify }) => {
 
   const onSubmitFunction = (data) => {
     setLoading(true);
-    axios
-      .post("https://kenziehub.herokuapp.com/sessions", data)
+    api
+      .post("/sessions", data)
       .then((res) => {
         notify("success", "logado com sucesso");
         localStorage.setItem("@TOKEN", res.data.token);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,12 +6,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ContainerRegister } from "./style";
 import { Form } from "../../styles/Form/style";
 import Header from "../../components/Header";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { UserContext } from "../../contexts/UserContext";
+import { api } from "../../services/api";
 
-const Register = ({ loading, setLoading, notify }) => {
-  let navigate = useNavigate();
+const Register = () => {
+  const { loading, setLoading, notify, navigate } = useContext(UserContext);
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -47,14 +47,14 @@ const Register = ({ loading, setLoading, notify }) => {
   const onSubmitFunction = (data) => {
     delete data.confirmPassword;
     setLoading(true);
-    axios
-      .post("https://kenziehub.herokuapp.com/users", data)
+    api
+      .post("/users", data)
       .then((res) => {
         notify("success", "usuário criado com sucesso");
         navigate("/login");
       })
       .finally(() => setLoading(false))
-      .catch((error) => notify("error", "email já existe"));
+      .catch(() => notify("error", "email já existe"));
   };
 
   return (

@@ -1,52 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Header from "../../components/Header";
-import axios from "axios";
+import { Outlet, Link } from "react-router-dom";
 
 import { ContainerDashboard } from "./style";
 import Loading from "../../components/Loading";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
-const Dashboard = ({ setLoading, loading, userInfo, setUserInfo, notify }) => {
-  const id = localStorage.getItem("@USERID");
-  let navigate = useNavigate();
-
-  const getUser = () => {
-    setLoading(true);
-    axios
-      .get(`https://kenziehub.herokuapp.com/users/${id}`)
-      .then((res) => setUserInfo(res.data))
-      .finally(() => setLoading(false))
-      .catch((error) => {
-        notify("error", "você deve logar para acessar essa página");
-        navigate("/login");
-      });
-  };
+const Dashboard = () => {
+  const { loading, userInfo, getUser } = useContext(UserContext);
 
   useEffect(() => {
     getUser();
+    console.log(userInfo);
   }, []);
 
   return (
     <>
-      <Header
-        setUserInfo={setUserInfo}
-        textButton="Sair"
-        redirect="/login"
-        notify={notify}
-      />
+      <Header textButton="Sair" redirect="/login" />
       <ContainerDashboard>
         <div className="Perfil">
-          <h1>{userInfo.name}</h1>
-          <h3>{userInfo.course_module}</h3>
+          <h1 className="perfil__name">{userInfo.name}</h1>
+          <h3 className="perfil__module">{userInfo.course_module}</h3>
         </div>
-        <div className="coding">
-          <h1>Que pena! Estamos em desenvolvimento :(</h1>
-          <h3>
-            Nossa aplicação está em desenvolvimento, em breve teremos novidades
-          </h3>
+        <div className="tecnologias">
+          <h1>Tecnologias</h1>
+          <ul>
+            {userInfo &&
+              userInfo.techs.map((tech) => (
+                <Link key={tech.id} id={tech.id} to={tech.id}>
+                  <li>
+                    <p>{tech.title}</p>
+                    <span>{tech.status}</span>
+                  </li>
+                </Link>
+              ))}
+          </ul>
         </div>
       </ContainerDashboard>
       {loading && <Loading />}
+      <Outlet />
     </>
   );
 };
