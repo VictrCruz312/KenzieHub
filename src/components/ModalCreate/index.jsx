@@ -1,17 +1,33 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { Modals } from "../../styles/Modals/style";
 import { AiOutlineClose } from "react-icons/ai";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const ModalCreate = () => {
   const { setTechEdit, navigate, createTech } = useContext(UserContext);
-  const [status, setStatus] = useState("iniciante");
-  const [name, setName] = useState("");
 
   const ExitModal = () => {
     setTechEdit("");
     navigate("/");
   };
+
+  const formSchema = yup.object().shape({
+    title: yup.string().required("Titulo é obrigatório"),
+    status: yup.string().required("Status é obrigatório"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const onSubmitFunction = (data) => createTech(data);
 
   return (
     <Modals>
@@ -22,32 +38,34 @@ const ModalCreate = () => {
             <AiOutlineClose />
           </button>
         </div>
-        <div>
-          <label htmlFor="name">Nome</label>
-          <input
-            style={{ color: "white" }}
-            type="text"
-            id="name"
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="status">Selecionar status</label>
-          <select
-            name="status"
-            id="status"
-            onChange={(event) => setStatus(event.target.value)}
-          >
-            <option value="iniciante">iniciante</option>
-            <option value="intermediario">intermediario</option>
-            <option value="avançado">avançado</option>
-          </select>
-        </div>
-        <div className="containerButton">
-          <button onClick={() => createTech({ title: name, status: status })}>
-            Salvar alterações
-          </button>
-        </div>
+        <form className="form" onSubmit={handleSubmit(onSubmitFunction)}>
+          <div className="containerInput">
+            <div className="ContainerNameAndError">
+              <label htmlFor="name">Nome</label>
+              <span>*{errors.title?.message}</span>
+            </div>
+            <input
+              style={{ color: "white" }}
+              type="text"
+              id="name"
+              placeholder="Insira um nome"
+              {...register("title")}
+            />
+          </div>
+          <div className="containerInput">
+            <div className="ContainerNameAndError">
+              <label htmlFor="status">Selecionar status</label>
+            </div>
+            <select name="status" id="status" {...register("status")}>
+              <option value="iniciante">iniciante</option>
+              <option value="intermediario">intermediario</option>
+              <option value="avançado">avançado</option>
+            </select>
+          </div>
+          <div className="containerButton">
+            <button type="submit">Salvar alterações</button>
+          </div>
+        </form>
       </div>
     </Modals>
   );

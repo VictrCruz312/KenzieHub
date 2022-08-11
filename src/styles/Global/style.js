@@ -3,19 +3,19 @@ import { createGlobalStyle } from "styled-components";
 const Global = createGlobalStyle`
         :root {
             --Font-inter: 'Inter', sans-serif;
-    
+
             --Color-white: 255, 255, 255;
-    
+
             --Color-primary: 255, 87, 127;
             --Color-primary-Focus: 255, 66, 127;
             --Color-primary-Negative: 89, 50, 63;
-    
+
             --Grey-4: 18, 18, 20;
             --Grey-3: 33, 37, 41;
             --Grey-2: 52, 59, 65;
             --Grey-1: 134, 142, 150;
             --Grey-0: 248, 249, 250;
-    
+
             --Sucess: 63, 232, 100;
             --Negative: 232, 63, 91;
         }
@@ -30,6 +30,10 @@ const Global = createGlobalStyle`
     }
 
     input:focus {
+        outline: none;
+    }
+
+    select:focus {
         outline: none;
     }
 

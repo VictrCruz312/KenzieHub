@@ -18,6 +18,21 @@ const UserProvider = ({ children }) => {
     type === "warning" && toast.warn(message);
   };
 
+  const login = (data) => {
+    setLoading(true);
+    api
+      .post("/sessions", data)
+      .then((res) => {
+        notify("success", "logado com sucesso");
+        localStorage.setItem("@TOKEN", res.data.token);
+        localStorage.setItem("@USERID", res.data.id);
+        navigate("/");
+        return res;
+      })
+      .finally(() => setLoading(false))
+      .catch((error) => notify("error", "Usuário ou senha incorretos"));
+  };
+
   const loggout = () => {
     localStorage.clear();
     notify("success", "deslogado");
@@ -25,16 +40,18 @@ const UserProvider = ({ children }) => {
   };
 
   const getUser = () => {
-    const id = localStorage.getItem("@USERID");
     setLoading(true);
     api
-      .get(`/users/${id}`)
+      .get("profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@TOKEN")}` },
+      })
       .then((res) => setUserInfo(res.data))
       .finally(() => setLoading(false))
-      .catch(() => {
+      .catch((res) => {
         notify("error", "você deve logar para acessar essa página");
         localStorage.clear();
         navigate("/login");
+        console.log(res);
       });
   };
 
@@ -46,6 +63,7 @@ const UserProvider = ({ children }) => {
       })
       .then(() => {
         getUser();
+        navigate("/");
         notify("success", "editado com sucesso");
       })
       .finally(() => setLoading(false))
@@ -70,7 +88,11 @@ const UserProvider = ({ children }) => {
   const createTech = (data) => {
     setLoading(true);
     api
-      .post("/users/techs", data)
+      .post("/users/techs", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
+        },
+      })
       .then(() => {
         getUser();
         navigate("/");
@@ -100,6 +122,7 @@ const UserProvider = ({ children }) => {
         updateTech,
         deleteTech,
         createTech,
+        login,
       }}
     >
       {children}
