@@ -33,6 +33,19 @@ const UserProvider = ({ children }) => {
       .catch((error) => notify("error", "Usuário ou senha incorretos"));
   };
 
+  const registerUser = (data) => {
+    delete data.confirmPassword;
+    setLoading(true);
+    api
+      .post("/users", data)
+      .then((res) => {
+        notify("success", "usuário criado com sucesso");
+        navigate("/login");
+      })
+      .finally(() => setLoading(false))
+      .catch(() => notify("error", "email já existe"));
+  };
+
   const loggout = () => {
     localStorage.clear();
     notify("success", "deslogado");
@@ -123,6 +136,7 @@ const UserProvider = ({ children }) => {
         deleteTech,
         createTech,
         login,
+        registerUser,
       }}
     >
       {children}
