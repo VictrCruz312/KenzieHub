@@ -9,12 +9,11 @@ import { ContainerLogin } from "./style";
 import Header from "../../components/Header";
 import { Form } from "../../styles/Form/style";
 import Loading from "../../components/Loading";
-import { api } from "../../services/api";
 
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
 const Login = () => {
-  const { setLoading, loading, notify, visibility, setVisibility, navigate } =
+  const { loading, visibility, setVisibility, navigate, login } =
     useContext(UserContext);
 
   const formSchema = yup.object().shape({
@@ -34,18 +33,7 @@ const Login = () => {
   });
 
   const onSubmitFunction = (data) => {
-    setLoading(true);
-    api
-      .post("/sessions", data)
-      .then((res) => {
-        notify("success", "logado com sucesso");
-        localStorage.setItem("@TOKEN", res.data.token);
-        localStorage.setItem("@USERID", res.data.user.id);
-        navigate("/");
-        return res;
-      })
-      .finally(() => setLoading(false))
-      .catch((error) => notify("error", "Usuário ou senha incorretos"));
+    login(data);
   };
 
   return (
@@ -79,7 +67,7 @@ const Login = () => {
                 id="password"
                 {...register("password")}
               />
-              <button onClick={() => setVisibility(!visibility)}>
+              <button type="button" onClick={() => setVisibility(!visibility)}>
                 {visibility ? (
                   <MdOutlineVisibility />
                 ) : (
