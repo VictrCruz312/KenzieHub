@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 import { useForm } from "react-hook-form";
+
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import { ContainerLogin } from "./style";
 import Header from "../../components/Header";
@@ -12,9 +12,9 @@ import Loading from "../../components/Loading";
 
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
-const Login = ({ setLoading, loading, notify }) => {
-  let navigate = useNavigate();
-  const [visibility, setVisibility] = useState(false);
+const Login = () => {
+  const { loading, visibility, setVisibility, navigate, login } =
+    useContext(UserContext);
 
   const formSchema = yup.object().shape({
     email: yup
@@ -33,18 +33,7 @@ const Login = ({ setLoading, loading, notify }) => {
   });
 
   const onSubmitFunction = (data) => {
-    setLoading(true);
-    axios
-      .post("https://kenziehub.herokuapp.com/sessions", data)
-      .then((res) => {
-        notify("success", "logado com sucesso");
-        localStorage.setItem("@TOKEN", res.data.token);
-        localStorage.setItem("@USERID", res.data.user.id);
-        navigate("/");
-        return res;
-      })
-      .finally(() => setLoading(false))
-      .catch((error) => notify("error", "Usuário ou senha incorretos"));
+    login(data);
   };
 
   return (
@@ -78,7 +67,7 @@ const Login = ({ setLoading, loading, notify }) => {
                 id="password"
                 {...register("password")}
               />
-              <button onClick={() => setVisibility(!visibility)}>
+              <button type="button" onClick={() => setVisibility(!visibility)}>
                 {visibility ? (
                   <MdOutlineVisibility />
                 ) : (
