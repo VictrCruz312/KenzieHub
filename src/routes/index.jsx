@@ -5,18 +5,21 @@ import ModalEdit from "../components/ModalEdit";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import { AnimatePresence } from "framer-motion";
 
 const RoutesMain = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />}>
-        <Route path=":id" element={<ModalEdit />} />
-        <Route path="/create" element={<ModalCreate />} />
-      </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<Navigate to={"/"} replace />} />
-    </Routes>
+    <AnimatePresence>
+      <Routes>
+        <Route path="/" element={<Dashboard />}>
+          <Route path=":id" element={<ModalEdit />} />
+          <Route path="/create" element={<ModalCreate />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Navigate to={"/"} replace />} />
+      </Routes>
+    </AnimatePresence>
   );
 };
 

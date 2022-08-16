@@ -6,6 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 const ModalEdit = () => {
   const { userInfo, techEdit, setTechEdit, navigate, updateTech, deleteTech } =
@@ -35,44 +36,50 @@ const ModalEdit = () => {
 
   return (
     techEdit !== "" && (
-      <Modals>
-        <div className="containerModal">
-          <div className="navigationModal">
-            <h1>Tecnologia Detalhes</h1>
-            <button onClick={() => ExitModal()}>
-              <AiOutlineClose />
-            </button>
-          </div>
-          <form className="form" onSubmit={handleSubmit(onSubmitFunction)}>
-            <div className="containerInput">
-              <div className="ContainerNameAndError">
-                <label htmlFor="name">Nome do projeto</label>
-              </div>
-              <input disabled defaultValue={techEdit[0].title} />
-            </div>
-            <div className="containerInput">
-              <div className="ContainerNameAndError">
-                <label htmlFor="status">Status</label>
-              </div>
-              <select name="status" id="status" {...register("status")}>
-                <option value="iniciante">iniciante</option>
-                <option value="intermediario">intermediario</option>
-                <option value="avançado">avançado</option>
-              </select>
-            </div>
-            <div className="containerButton">
-              <button type="submit">Salvar alterações</button>
-              <button
-                type="button"
-                className="btnDelete"
-                onClick={() => deleteTech(id)}
-              >
-                Excluir
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9 }}
+      >
+        <Modals>
+          <div className="containerModal">
+            <div className="navigationModal">
+              <h1>Tecnologia Detalhes</h1>
+              <button onClick={() => ExitModal()}>
+                <AiOutlineClose />
               </button>
             </div>
-          </form>
-        </div>
-      </Modals>
+            <form className="form" onSubmit={handleSubmit(onSubmitFunction)}>
+              <div className="containerInput">
+                <div className="ContainerNameAndError">
+                  <label htmlFor="name">Nome do projeto</label>
+                </div>
+                <input disabled defaultValue={techEdit[0].title} />
+              </div>
+              <div className="containerInput">
+                <div className="ContainerNameAndError">
+                  <label htmlFor="status">Status</label>
+                </div>
+                <select name="status" id="status" {...register("status")}>
+                  <option value="iniciante">iniciante</option>
+                  <option value="intermediario">intermediario</option>
+                  <option value="avançado">avançado</option>
+                </select>
+              </div>
+              <div className="containerButton">
+                <button type="submit">Salvar alterações</button>
+                <button
+                  type="button"
+                  className="btnDelete"
+                  onClick={() => deleteTech(id)}
+                >
+                  Excluir
+                </button>
+              </div>
+            </form>
+          </div>
+        </Modals>
+      </motion.div>
     )
   );
 };

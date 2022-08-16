@@ -5,6 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 const ModalCreate = () => {
   const { setTechEdit, navigate, createTech } = useContext(UserContext);
@@ -30,44 +31,50 @@ const ModalCreate = () => {
   const onSubmitFunction = (data) => createTech(data);
 
   return (
-    <Modals>
-      <div className="containerModal">
-        <div className="navigationModal">
-          <h1>Cadastrar tecnologia</h1>
-          <button onClick={() => ExitModal()}>
-            <AiOutlineClose />
-          </button>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.9 }}
+    >
+      <Modals>
+        <div className="containerModal">
+          <div className="navigationModal">
+            <h1>Cadastrar tecnologia</h1>
+            <button onClick={() => ExitModal()}>
+              <AiOutlineClose />
+            </button>
+          </div>
+          <form className="form" onSubmit={handleSubmit(onSubmitFunction)}>
+            <div className="containerInput">
+              <div className="ContainerNameAndError">
+                <label htmlFor="name">Nome</label>
+                <span>*{errors.title?.message}</span>
+              </div>
+              <input
+                style={{ color: "white" }}
+                type="text"
+                id="name"
+                placeholder="Insira um nome"
+                {...register("title")}
+              />
+            </div>
+            <div className="containerInput">
+              <div className="ContainerNameAndError">
+                <label htmlFor="status">Selecionar status</label>
+              </div>
+              <select name="status" id="status" {...register("status")}>
+                <option value="iniciante">iniciante</option>
+                <option value="intermediario">intermediario</option>
+                <option value="avançado">avançado</option>
+              </select>
+            </div>
+            <div className="containerButton">
+              <button type="submit">Salvar alterações</button>
+            </div>
+          </form>
         </div>
-        <form className="form" onSubmit={handleSubmit(onSubmitFunction)}>
-          <div className="containerInput">
-            <div className="ContainerNameAndError">
-              <label htmlFor="name">Nome</label>
-              <span>*{errors.title?.message}</span>
-            </div>
-            <input
-              style={{ color: "white" }}
-              type="text"
-              id="name"
-              placeholder="Insira um nome"
-              {...register("title")}
-            />
-          </div>
-          <div className="containerInput">
-            <div className="ContainerNameAndError">
-              <label htmlFor="status">Selecionar status</label>
-            </div>
-            <select name="status" id="status" {...register("status")}>
-              <option value="iniciante">iniciante</option>
-              <option value="intermediario">intermediario</option>
-              <option value="avançado">avançado</option>
-            </select>
-          </div>
-          <div className="containerButton">
-            <button type="submit">Salvar alterações</button>
-          </div>
-        </form>
-      </div>
-    </Modals>
+      </Modals>
+    </motion.div>
   );
 };
 
