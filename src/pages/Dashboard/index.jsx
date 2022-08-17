@@ -7,12 +7,44 @@ import Loading from "../../components/Loading";
 import { UserContext } from "../../contexts/UserContext";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { api } from "../../services/api";
 
 const Dashboard = () => {
   const { loading, userInfo, getUser, navigate } = useContext(UserContext);
   useEffect(() => {
     getUser();
   }, []);
+
+  const [file, setFile] = useState();
+
+  const handleFunction = (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("avatar", file);
+    console.log(formData);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("@TOKEN")}`,
+      },
+    };
+    const data = { avatar: formData };
+    console.log(data.avatar.formData);
+    api
+      .patch("users/avatar", formData, config)
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    console.log(file);
+  }, [file]);
 
   return (
     <>
@@ -24,7 +56,16 @@ const Dashboard = () => {
       >
         <ContainerDashboard>
           <div className="Perfil">
-            <h1 className="perfil__name">{userInfo.name}</h1>
+            <div className="PerfilNameAndImg">
+              {userInfo.avatar_url && (
+                <img
+                  className="perfil__img"
+                  src={userInfo.avatar_url}
+                  alt="foto de perfil"
+                />
+              )}
+              <h1 className="perfil__name">{userInfo.name}</h1>
+            </div>
             <h3 className="perfil__module">{userInfo.course_module}</h3>
           </div>
           <ContainerTecnologias>
@@ -47,6 +88,10 @@ const Dashboard = () => {
             </ListTechs>
           </ContainerTecnologias>
         </ContainerDashboard>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <input type="file" onChange={(e) => handleFunction(e)} />
+          <button type="submit">send</button>
+        </form>
       </motion.div>
       {loading && <Loading />}
       <Outlet />
