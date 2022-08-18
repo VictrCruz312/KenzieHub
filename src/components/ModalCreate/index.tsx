@@ -1,17 +1,21 @@
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { useUserContext } from "../../contexts/UserContext/UserContext";
 import { Modals } from "../../styles/Modals/style";
 import { AiOutlineClose } from "react-icons/ai";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import {
+  IDataCreateTech,
+  useTechContext,
+} from "../../contexts/TechsContext/TechsContext";
 
 const ModalCreate = () => {
-  const { setTechEdit, navigate, createTech } = useContext(UserContext);
+  const { navigate } = useUserContext();
+  const { setTechEdit, createTech } = useTechContext();
 
   const ExitModal = () => {
-    setTechEdit("");
+    setTechEdit(undefined);
     navigate("/");
   };
 
@@ -24,11 +28,11 @@ const ModalCreate = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IDataCreateTech>({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = (data) => createTech(data);
+  const onSubmitFunction = (data: IDataCreateTech) => createTech(data);
 
   return (
     <motion.div
@@ -62,7 +66,7 @@ const ModalCreate = () => {
               <div className="ContainerNameAndError">
                 <label htmlFor="status">Selecionar status</label>
               </div>
-              <select name="status" id="status" {...register("status")}>
+              <select id="status" {...register("status")}>
                 <option value="iniciante">iniciante</option>
                 <option value="intermediario">intermediario</option>
                 <option value="avançado">avançado</option>

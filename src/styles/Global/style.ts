@@ -41,7 +41,7 @@ const Global = createGlobalStyle`
         list-style: none;
     }
 
-    button, a {
+    button, a, select {
         cursor: pointer;
         text-decoration: none;
     }
