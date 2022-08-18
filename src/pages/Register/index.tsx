@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,11 +6,14 @@ import { ContainerRegister } from "./style";
 import { Form } from "../../styles/Form/style";
 import Header from "../../components/Header";
 import Loading from "../../components/Loading";
-import { UserContext } from "../../contexts/UserContext";
 import { motion } from "framer-motion";
+import {
+  IDataRegister,
+  useUserContext,
+} from "../../contexts/UserContext/UserContext";
 
 const Register = () => {
-  const { loading, registerUser } = useContext(UserContext);
+  const { loading, registerUser } = useUserContext();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -40,11 +42,11 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IDataRegister>({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = (data) => registerUser(data);
+  const onSubmitFunction = (data: IDataRegister) => registerUser(data);
 
   return (
     <>
