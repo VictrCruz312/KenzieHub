@@ -59,7 +59,11 @@ const ModalEdit = () => {
               <div className="ContainerNameAndError">
                 <label htmlFor="name">Nome do projeto</label>
               </div>
-              <input disabled defaultValue={techEdit?.title} />
+              <input
+                className="disabled"
+                disabled
+                defaultValue={techEdit?.title}
+              />
             </div>
             <div className="containerInput">
               <div className="ContainerNameAndError">

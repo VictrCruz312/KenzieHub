@@ -95,6 +95,11 @@ export const Modals = styled.div`
           color: rgb(var(--Grey-0));
         }
 
+        .disabled {
+          background-color: rgb(var(--Grey-3), 0.5);
+          cursor: not-allowed;
+        }
+
         input::placeholder {
           font-weight: 400;
           font-size: 16.2426px;
