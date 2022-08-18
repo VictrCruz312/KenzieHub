@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Form = styled.form`
+interface IErrorsProps {
+  errors: object;
+}
+
+export const Form = styled.form<IErrorsProps>`
   display: flex;
   flex-direction: column;
   gap: 20px;
