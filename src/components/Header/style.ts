@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const HeaderPage = styled.header`
+interface ITextButton {
+  textButton: string;
+}
+
+export const HeaderPage = styled.header<ITextButton>`
   width: 92vw;
   min-width: 265px;
   display: flex;

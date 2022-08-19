@@ -1,0 +1,25 @@
+import RoutesMain from "./routes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ContainerApp } from "./ContainerApp";
+
+function App() {
+  return (
+    <ContainerApp className="App">
+      <RoutesMain />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </ContainerApp>
+  );
+}
+
+export default App;
