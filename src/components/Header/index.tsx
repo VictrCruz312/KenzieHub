@@ -1,11 +1,15 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext";
 import { HeaderPage } from "./style";
 import { motion } from "framer-motion";
+import { useTechContext } from "../../contexts/TechsContext/TechsContext";
 
-const Header = ({ textButton, redirect }) => {
-  const { loggout } = useContext(UserContext);
+interface IHeaderProps {
+  textButton?: any;
+  redirect?: string;
+}
+
+const Header = ({ textButton, redirect }: IHeaderProps) => {
+  const { loggout } = useTechContext();
 
   return (
     <HeaderPage textButton={textButton}>

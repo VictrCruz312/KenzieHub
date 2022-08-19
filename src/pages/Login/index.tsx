@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import {
+  IDataLogin,
+  useUserContext,
+} from "../../contexts/UserContext/UserContext";
 import { useForm } from "react-hook-form";
 
 import * as yup from "yup";
@@ -15,7 +17,7 @@ import { motion } from "framer-motion";
 
 const Login = () => {
   const { loading, visibility, setVisibility, navigate, login } =
-    useContext(UserContext);
+    useUserContext();
 
   const formSchema = yup.object().shape({
     email: yup
@@ -29,11 +31,11 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IDataLogin>({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = (data) => {
+  const onSubmitFunction = (data: IDataLogin) => {
     login(data);
   };
 

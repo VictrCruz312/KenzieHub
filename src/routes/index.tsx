@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ModalCreate from "../components/ModalCreate";
 import ModalEdit from "../components/ModalEdit";
@@ -6,12 +5,20 @@ import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { AnimatePresence } from "framer-motion";
+import TechProvider from "../contexts/TechsContext/TechsContext";
 
 const RoutesMain = () => {
   return (
     <AnimatePresence>
       <Routes>
-        <Route path="/" element={<Dashboard />}>
+        <Route
+          path="/"
+          element={
+            <TechProvider>
+              <Dashboard />
+            </TechProvider>
+          }
+        >
           <Route path=":id" element={<ModalEdit />} />
           <Route path="/create" element={<ModalCreate />} />
         </Route>

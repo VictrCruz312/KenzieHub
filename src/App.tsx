@@ -1,11 +1,11 @@
-import "./App.css";
 import RoutesMain from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ContainerApp } from "./ContainerApp";
 
 function App() {
   return (
-    <div className="App">
+    <ContainerApp className="App">
       <RoutesMain />
       <ToastContainer
         position="top-right"
@@ -18,7 +18,7 @@ function App() {
         draggable
         pauseOnHover
       />
-    </div>
+    </ContainerApp>
   );
 }
 
