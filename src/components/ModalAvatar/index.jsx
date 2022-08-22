@@ -6,7 +6,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 
 const ModalAvatar = () => {
-  const { navigate, notify, setLoading } = useUserContext();
+  const { navigate, notify, setLoading, getUser } = useUserContext();
 
   const ExitModal = () => {
     navigate("/");
@@ -33,6 +33,7 @@ const ModalAvatar = () => {
       .patch("users/avatar", formData, config)
       .then(() => {
         notify("success", "foto carregada com sucesso");
+        getUser();
         navigate("/");
       })
       .finally(() => setLoading(false))
