@@ -7,11 +7,9 @@ import Loading from "../../components/Loading";
 import { useUserContext } from "../../contexts/UserContext/UserContext";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useTechContext } from "../../contexts/TechsContext/TechsContext";
 
 const Dashboard = () => {
-  const { loading, navigate } = useUserContext();
-  const { userInfo, getUser } = useTechContext();
+  const { loading, navigate, userInfo, getUser } = useUserContext();
 
   useEffect(() => {
     getUser();

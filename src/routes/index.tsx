@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { AnimatePresence } from "framer-motion";
 import TechProvider from "../contexts/TechsContext/TechsContext";
+import ModalProfile from "../components/ModalProfile";
 
 const RoutesMain = () => {
   return (
@@ -21,6 +22,7 @@ const RoutesMain = () => {
         >
           <Route path=":id" element={<ModalEdit />} />
           <Route path="/create" element={<ModalCreate />} />
+          <Route path="/profile" element={<ModalProfile />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
