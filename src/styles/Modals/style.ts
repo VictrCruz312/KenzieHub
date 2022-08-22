@@ -15,7 +15,7 @@ export const Modals = styled.div`
   .containerModal {
     background-color: rgb(var(--Grey-3));
     width: 97vw;
-    height: 342px;
+    padding-bottom: 50px;
     display: flex;
     flex-direction: column;
     gap: 20px;
