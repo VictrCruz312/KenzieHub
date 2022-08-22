@@ -6,7 +6,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 
 const ModalAvatar = () => {
-  const { navigate } = useUserContext();
+  const { navigate, notify, setLoading } = useUserContext();
 
   const ExitModal = () => {
     navigate("/");
@@ -20,6 +20,7 @@ const ModalAvatar = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     formData.append("avatar", file);
     const config = {
@@ -30,8 +31,12 @@ const ModalAvatar = () => {
     };
     api
       .patch("users/avatar", formData, config)
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
+      .then(() => {
+        notify("success", "foto carregada com sucesso");
+        navigate("/");
+      })
+      .finally(() => setLoading(false))
+      .catch(() => notify("error", "email já existe"));
   };
   return (
     <motion.div
