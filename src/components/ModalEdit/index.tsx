@@ -13,9 +13,8 @@ import {
 } from "../../contexts/TechsContext/TechsContext";
 
 const ModalEdit = () => {
-  const { navigate } = useUserContext();
-  const { userInfo, techEdit, setTechEdit, updateTech, deleteTech } =
-    useTechContext();
+  const { navigate, userInfo } = useUserContext();
+  const { techEdit, setTechEdit, updateTech, deleteTech } = useTechContext();
 
   const { id } = useParams();
 

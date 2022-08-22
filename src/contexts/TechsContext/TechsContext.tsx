@@ -9,10 +9,7 @@ import { api } from "../../services/api";
 import { IUserTechProps, useUserContext } from "../UserContext/UserContext";
 
 interface ITechProvider {
-  userInfo: IUser | undefined;
-  getUser: () => void;
   loggout: () => void;
-  setUserInfo: Dispatch<SetStateAction<IUser | undefined>>;
   techEdit: ITech | undefined;
   setTechEdit: Dispatch<SetStateAction<ITech | undefined>>;
   updateTech: (id: string, data: IDataUpdateTech) => void;
@@ -28,7 +25,7 @@ interface ITech {
   updated_at: string;
 }
 
-interface IUser {
+export interface IUser {
   avatar_url: string;
   bio: string;
   contact: string;
@@ -52,30 +49,15 @@ export type IDataUpdateTech = { status: string };
 const TechContext = createContext<ITechProvider>({} as ITechProvider);
 
 const TechProvider = ({ children }: IUserTechProps) => {
-  const { notify, setLoading, navigate } = useUserContext();
+  const { notify, setLoading, navigate, getUser, setUserInfo } =
+    useUserContext();
 
-  const [userInfo, setUserInfo] = useState<IUser | undefined>();
   const [techEdit, setTechEdit] = useState<ITech | undefined>(undefined);
 
   const loggout = () => {
     localStorage.clear();
     notify("success", "deslogado");
     setUserInfo(undefined);
-  };
-
-  const getUser = () => {
-    setLoading(true);
-    api
-      .get("profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@TOKEN")}` },
-      })
-      .then((res) => setUserInfo(res.data))
-      .finally(() => setLoading(false))
-      .catch(() => {
-        notify("error", "você deve logar para acessar essa página");
-        localStorage.clear();
-        navigate("/login");
-      });
   };
 
   const updateTech = (id: string, data: IDataUpdateTech) => {
@@ -131,12 +113,9 @@ const TechProvider = ({ children }: IUserTechProps) => {
     <TechContext.Provider
       value={{
         loggout,
-        getUser,
         updateTech,
         deleteTech,
         createTech,
-        userInfo,
-        setUserInfo,
         techEdit,
         setTechEdit,
       }}
