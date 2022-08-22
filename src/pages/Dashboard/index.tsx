@@ -29,11 +29,16 @@ const Dashboard = () => {
             <div className="Perfil">
               <div className="PerfilNameAndImg">
                 {userInfo && (
-                  <img
-                    className="perfil__img"
-                    src={userInfo.avatar_url}
-                    alt=""
-                  />
+                  <button
+                    className="buttonImageProfile"
+                    onClick={() => navigate("/avatar")}
+                  >
+                    <img
+                      className="perfil__img"
+                      src={userInfo.avatar_url}
+                      alt=""
+                    />
+                  </button>
                 )}
                 <h1 className="perfil__name">{userInfo.name}</h1>
               </div>

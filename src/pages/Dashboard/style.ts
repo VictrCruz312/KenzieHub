@@ -9,6 +9,24 @@ export const ContainerDashboard = styled.main`
     align-items: center;
     padding: 45px 10vw;
 
+    .PerfilNameAndImg {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .buttonImageProfile {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+
+        .perfil__img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+
     .perfil__name {
       font-weight: 700;
       font-size: 18px;
