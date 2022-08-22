@@ -6,6 +6,7 @@ import { ContainerDashboard, ContainerTecnologias, ListTechs } from "./style";
 import Loading from "../../components/Loading";
 import { useUserContext } from "../../contexts/UserContext/UserContext";
 import { FaPlus } from "react-icons/fa";
+import { MdOutlineEditNote } from "react-icons/md";
 import { motion } from "framer-motion";
 
 const Dashboard = () => {
@@ -31,12 +32,17 @@ const Dashboard = () => {
                   <img
                     className="perfil__img"
                     src={userInfo.avatar_url}
-                    alt="foto de perfil"
+                    alt=""
                   />
                 )}
                 <h1 className="perfil__name">{userInfo.name}</h1>
               </div>
-              <h3 className="perfil__module">{userInfo.course_module}</h3>
+              <div className="containerModuleAndBtnEdit">
+                <button onClick={() => navigate("/profile")}>
+                  <MdOutlineEditNote />
+                </button>
+                <h3 className="perfil__module">{userInfo.course_module}</h3>
+              </div>
             </div>
             <ContainerTecnologias>
               <div className="containerCreate">

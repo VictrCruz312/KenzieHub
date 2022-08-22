@@ -16,11 +16,37 @@ export const ContainerDashboard = styled.main`
       color: rgb(var(--Grey-0));
     }
 
-    .perfil__module {
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 22px;
-      color: rgb(var(--Grey-1));
+    .containerModuleAndBtnEdit {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+
+      .perfil__module {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 22px;
+        color: rgb(var(--Grey-1));
+      }
+      button {
+        background-color: rgb(var(--Grey-3));
+        padding: 3px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+
+        svg {
+          font-weight: 900;
+          background-color: rgba(0, 0, 0, 0);
+          color: rgb(var(--Color-white));
+          width: 20px;
+          height: 20px;
+        }
+
+        &:hover {
+          background-color: rgb(var(--Grey-2));
+        }
+      }
     }
   }
 `;
