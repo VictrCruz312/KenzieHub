@@ -2,8 +2,17 @@ import { useUserContext } from "../../contexts/UserContext/UserContext";
 import { Modals } from "../../styles/Modals/style";
 import { AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { api } from "../../services/api";
+
+interface IFile {
+  lastModified: number;
+  lastModifiedDate: string;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
 
 const ModalAvatar = () => {
   const { navigate, notify, setLoading, getUser } = useUserContext();
@@ -12,13 +21,13 @@ const ModalAvatar = () => {
     navigate("/");
   };
 
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<string>("");
 
-  const handleFunction = (e) => {
-    setFile(e.target.files[0]);
+  const handleFunction = (e: any) => {
+    setFile(e.target);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     setLoading(true);
     const formData = new FormData();
