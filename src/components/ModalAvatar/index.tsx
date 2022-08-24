@@ -2,7 +2,7 @@ import { useUserContext } from "../../contexts/UserContext/UserContext";
 import { Modals } from "../../styles/Modals/style";
 import { AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { api } from "../../services/api";
 
 interface IFile {
@@ -21,10 +21,10 @@ const ModalAvatar = () => {
     navigate("/");
   };
 
-  const [file, setFile] = useState<string>("");
+  const [file, setFile] = useState<any>();
 
-  const handleFunction = (e: any) => {
-    setFile(e.target);
+  const handleFunction = (e: HTMLInputElement) => {
+    setFile(e.files?.[0]);
   };
 
   const handleSubmit = (event: SyntheticEvent) => {
@@ -46,7 +46,7 @@ const ModalAvatar = () => {
         navigate("/");
       })
       .finally(() => setLoading(false))
-      .catch(() => notify("error", "email já existe"));
+      .catch(() => notify("error", "erro ao carregar foto"));
   };
   return (
     <motion.div
@@ -68,7 +68,7 @@ const ModalAvatar = () => {
               style={{ margin: "0 auto", cursor: "pointer" }}
               id="file"
               type="file"
-              onChange={handleFunction}
+              onChange={(e) => handleFunction(e.target)}
             />
             <div className="containerButton">
               <button type="submit">Carregar</button>
